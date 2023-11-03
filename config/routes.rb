@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'registrations/new'
+  get 'registrations/create'
   root to: 'products#index'
 
   resources :products, only: [:index, :show]
@@ -21,6 +23,20 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboard#show'
   end
   get '/about', to: 'about#index', as: 'about'
+
+get '/register', to: 'users#new'
+post '/register', to: 'users#create'
+
+get '/login', to: 'sessions#new'
+post '/login', to: 'sessions#create'
+delete '/logout', to: 'sessions#destroy'
+
+resources :users, only: [:new, :create]
+
+
+
+get '/register', to: 'registrations#new'
+post '/register', to: 'registrations#create'
 
 
   # The priority is based upon order of creation: first created -> highest priority.
