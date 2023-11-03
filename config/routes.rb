@@ -34,6 +34,8 @@ delete '/logout', to: 'sessions#destroy'
 resources :users, only: [:new, :create]
 resources :users, only: [:show]
 
+get '/users', to: 'users#show'
+
 
 
 
