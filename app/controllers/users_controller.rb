@@ -14,13 +14,20 @@ class UsersController < ApplicationController
     end
   end
  
-    def show
-      @user = User.find_by(id: params[:id])
+  def show
+    @user = User.find_by(id: params[:id])
+    if @user
+      # User found, display the user profile
+    else
+      flash[:alert] = "User not found"
+      redirect_to root_path # Redirect to the home page or an error page
     end
   end
+
 
   private
 
   def user_params
     params.require(:user).permit(:email, :password, :other_attributes)
   end
+end

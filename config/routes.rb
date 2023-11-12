@@ -1,46 +1,46 @@
 Rails.application.routes.draw do
-
-  get 'registrations/new'
-  get 'registrations/create'
   root to: 'products#index'
 
+  get '/about', to: 'about#index', as: 'about'
+
+  # User registration and login routes
+  get '/register', to: 'users#new'
+  post '/register', to: 'users#create'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  get '/users', to: 'users#show'
+
+  # User routes
+  resources :users, only: [:new, :create, :show]
+  resources :registrations, only: [:new, :create, :show]
+
+
+
+  # Product and category routes
   resources :products, only: [:index, :show]
   resources :categories, only: [:show]
 
+  # Cart routes
   resource :cart, only: [:show] do
-    post   :add_item
-    post   :remove_item
+    post :add_item
+    post :remove_item
   end
 
+  # Order routes
   resources :orders, only: [:create, :show]
 
+  # Admin routes
   namespace :admin do
     root to: 'dashboard#show'
     resources :products, except: [:edit, :update, :show]
-  end
-
-  namespace :admin do
     get 'dashboard', to: 'dashboard#show'
   end
-  get '/about', to: 'about#index', as: 'about'
 
-get '/register', to: 'users#new'
-post '/register', to: 'users#create'
-
-get '/login', to: 'sessions#new'
-post '/login', to: 'sessions#create'
-delete '/logout', to: 'sessions#destroy'
-
-resources :users, only: [:new, :create]
-resources :users, only: [:show]
-
-get '/users', to: 'users#show'
-
-
-
-
-get '/register', to: 'registrations#new'
-post '/register', to: 'registrations#create'
+  # Registration routes
+  get '/register', to: 'registrations#new'
+  post '/register', to: 'registrations#create'
+end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -97,4 +97,4 @@ post '/register', to: 'registrations#create'
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
+
